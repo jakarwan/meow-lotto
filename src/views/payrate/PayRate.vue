@@ -122,7 +122,7 @@
                   type="number"
                   placeholder="จำนวนที่ซื้อได้"
                   pattern="[0-9]*"
-                  v-model="form.pay_2top"
+                  v-model="form.pay_3top"
                   maxlength="3"
                 />
               </b-form-group>
@@ -148,7 +148,7 @@
                   type="number"
                   placeholder="จำนวนที่ซื้อได้"
                   pattern="[0-9]*"
-                  v-model="form.pay_3top"
+                  v-model="form.pay_2top"
                   maxlength="3"
                 />
               </b-form-group>
