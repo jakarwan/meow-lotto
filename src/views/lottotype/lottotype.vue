@@ -810,7 +810,7 @@ export default {
       });
     },
     formatDate(date) {
-      return moment.utc(date).format("DD-MM-YYYY HH:mm:ss");
+      return moment(date).format("DD-MM-YYYY HH:mm:ss");
     },
   },
 };
