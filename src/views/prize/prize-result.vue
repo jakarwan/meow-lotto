@@ -217,6 +217,7 @@
                   <td style="padding: 0">
                     <button
                       class="btn-sm btn-danger"
+                      v-if="data.status_poy != 'CAN'"
                       @click="onSubmitCancel(data)"
                     >
                       ยกเลิกโพย
