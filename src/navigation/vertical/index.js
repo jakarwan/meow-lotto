@@ -24,6 +24,10 @@ const menu = [
         title: "รายการแทง",
         route: "prize-result",
       },
+      {
+        title: "สรุปการเล่น",
+        route: "lotto-play",
+      },
     ],
   },
   // {

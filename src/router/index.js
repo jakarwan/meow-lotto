@@ -169,6 +169,14 @@ const router = new VueRouter({
       },
     },
     {
+      path: "/lotto-play",
+      name: "lotto-play",
+      component: () => import("@/views/prize/lotto-play.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: "/close-lotto",
       name: "close-lotto",
       component: () => import("@/views/close-lotto/close-lotto.vue"),
