@@ -484,6 +484,58 @@
               </b-form-group>
             </b-col>
             <b-col md="6">
+              <b-form-group>
+                <label for="email">ราคาจ่าย (ขั้นที่ 4) บาท:</label>
+                <b-form-input
+                  id="price"
+                  type="text"
+                  placeholder="ราคาจ่าย"
+                  pattern="[0-9]*"
+                  v-model="form.pay4"
+                  maxlength="10"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="6">
+              <b-form-group>
+                <label for="email">จำนวนที่ซื้อได้ (ขั้นที่ 4) บาท:</label>
+                <b-form-input
+                  id="price"
+                  type="text"
+                  placeholder="จำนวนที่ซื้อได้"
+                  pattern="[0-9]*"
+                  v-model="form.buy_limit4"
+                  maxlength="10"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="6">
+              <b-form-group>
+                <label for="email">ราคาจ่าย (ขั้นที่ 5) บาท:</label>
+                <b-form-input
+                  id="price"
+                  type="text"
+                  placeholder="ราคาจ่าย"
+                  pattern="[0-9]*"
+                  v-model="form.pay5"
+                  maxlength="10"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="6">
+              <b-form-group>
+                <label for="email">จำนวนที่ซื้อได้ (ขั้นที่ 5) บาท:</label>
+                <b-form-input
+                  id="price"
+                  type="text"
+                  placeholder="จำนวนที่ซื้อได้"
+                  pattern="[0-9]*"
+                  v-model="form.buy_limit5"
+                  maxlength="10"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="6">
               <div>
                 <b-form-checkbox
                   v-model="allNumber"
@@ -689,6 +741,60 @@
                   placeholder="จำนวนที่ซื้อได้"
                   pattern="[0-9]*"
                   v-model="formedit.buy_limit3"
+                  maxlength="10"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="4"> </b-col>
+            <b-col md="4">
+              <b-form-group>
+                <label for="email">ราคาจ่าย (ขั้นที่ 4):</label>
+                <b-form-input
+                  id="price"
+                  type="text"
+                  placeholder="ราคาจ่าย"
+                  pattern="[0-9]*"
+                  v-model="formedit.pay4"
+                  maxlength="10"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group>
+                <label for="email">จำนวนที่ซื้อได้ (ขั้นที่ 4):</label>
+                <b-form-input
+                  id="price"
+                  type="text"
+                  placeholder="จำนวนที่ซื้อได้"
+                  pattern="[0-9]*"
+                  v-model="formedit.buy_limit4"
+                  maxlength="10"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="4"> </b-col>
+            <b-col md="4">
+              <b-form-group>
+                <label for="email">ราคาจ่าย (ขั้นที่ 5):</label>
+                <b-form-input
+                  id="price"
+                  type="text"
+                  placeholder="ราคาจ่าย"
+                  pattern="[0-9]*"
+                  v-model="formedit.pay5"
+                  maxlength="10"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group>
+                <label for="email">จำนวนที่ซื้อได้ (ขั้นที่ 5):</label>
+                <b-form-input
+                  id="price"
+                  type="text"
+                  placeholder="จำนวนที่ซื้อได้"
+                  pattern="[0-9]*"
+                  v-model="formedit.buy_limit5"
                   maxlength="10"
                 />
               </b-form-group>
@@ -984,9 +1090,13 @@ export default {
         pay: "",
         pay2: "",
         pay3: "",
+        pay4: "",
+        pay4: "",
         buy_limit: "",
         buy_limit2: "",
         buy_limit3: "",
+        buy_limit4: "",
+        buy_limit5: "",
         cn_id: "",
         closeNumber: "",
       },
@@ -1180,9 +1290,13 @@ export default {
             pay: this.form.pay,
             pay2: this.form.pay2,
             pay3: this.form.pay3,
+            pay4: this.form.pay4,
+            pay5: this.form.pay5,
             buy_limit: this.form.buy_limit ? this.form.buy_limit : undefined,
             buy_limit2: this.form.buy_limit2 ? this.form.buy_limit2 : undefined,
             buy_limit3: this.form.buy_limit3 ? this.form.buy_limit3 : undefined,
+            buy_limit4: this.form.buy_limit4 ? this.form.buy_limit4 : undefined,
+            buy_limit5: this.form.buy_limit5 ? this.form.buy_limit5 : undefined,
             allNumber: this.allNumber,
           })
             .then((resp) => {
@@ -1236,15 +1350,13 @@ export default {
             pay: this.formedit.pay,
             pay2: this.formedit.pay2,
             pay3: this.formedit.pay3,
-            buy_limit: this.formedit.buy_limit
-              ? this.formedit.buy_limit
-              : 0,
-              buy_limit2: this.formedit.buy_limit2
-              ? this.formedit.buy_limit2
-              : 0,
-              buy_limit3: this.formedit.buy_limit3
-              ? this.formedit.buy_limit3
-              : 0,
+            pay4: this.formedit.pay4,
+            pay5: this.formedit.pay5,
+            buy_limit: this.formedit.buy_limit ? this.formedit.buy_limit : 0,
+            buy_limit2: this.formedit.buy_limit2 ? this.formedit.buy_limit2 : 0,
+            buy_limit3: this.formedit.buy_limit3 ? this.formedit.buy_limit3 : 0,
+            buy_limit4: this.formedit.buy_limit4 ? this.formedit.buy_limit4 : 0,
+            buy_limit5: this.formedit.buy_limit5 ? this.formedit.buy_limit5 : 0,
           })
             .then((resp) => {
               this.showToast(
