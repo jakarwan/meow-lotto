@@ -166,69 +166,42 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(item, index) in mergedRows"
-              :key="index"
-              class="text-center"
-            >
-              <td style="padding: 5px">
-                <b>{{ item["วิ่งบน"] ? item.number : "" }}</b>
+            <tr v-for="(row, index) in sortedData" :key="index">
+              <td style="text-align: center; padding: 5px">
+                <b>{{ row["วิ่งบน"].number }}</b>
               </td>
-              <td style="padding: 5px" class="text-right">
-                <b>{{
-                  item["วิ่งบน"] ? numberWithCommas(item["วิ่งบน"].total) : ""
-                }}</b>
+              <td style="text-align: end; padding: 5px">
+                <b>{{ numberWithCommas(row["วิ่งบน"].total) }}</b>
               </td>
-
-              <td style="padding: 5px">
-                <b>{{ item["วิ่งล่าง"] ? item.number : "" }}</b>
+              <td style="text-align: center; padding: 5px">
+                <b>{{ row["วิ่งล่าง"].number }}</b>
               </td>
-              <td style="padding: 5px" class="text-right">
-                <b>{{
-                  item["วิ่งล่าง"]
-                    ? numberWithCommas(item["วิ่งล่าง"].total)
-                    : ""
-                }}</b>
+              <td style="text-align: end; padding: 5px">
+                <b>{{ numberWithCommas(row["วิ่งล่าง"].total) }}</b>
               </td>
-
-              <td style="padding: 5px">
-                <b>{{ item["2 ตัวบน"] ? item.number : "" }}</b>
+              <td style="text-align: center; padding: 5px">
+                <b>{{ row["2 ตัวบน"].number }}</b>
               </td>
-              <td style="padding: 5px" class="text-right">
-                <b>{{
-                  item["2 ตัวบน"] ? numberWithCommas(item["2 ตัวบน"].total) : ""
-                }}</b>
+              <td style="text-align: end; padding: 5px">
+                <b>{{ numberWithCommas(row["2 ตัวบน"].total) }}</b>
               </td>
-
-              <td style="padding: 5px">
-                <b>{{ item["2 ตัวล่าง"] ? item.number : "" }}</b>
+              <td style="text-align: center; padding: 5px">
+                <b>{{ row["2 ตัวล่าง"].number }}</b>
               </td>
-              <td style="padding: 5px" class="text-right">
-                <b>{{
-                  item["2 ตัวล่าง"]
-                    ? numberWithCommas(item["2 ตัวล่าง"].total)
-                    : ""
-                }}</b>
+              <td style="text-align: end; padding: 5px">
+                <b>{{ numberWithCommas(row["2 ตัวล่าง"].total) }}</b>
               </td>
-
-              <td style="padding: 5px">
-                <b>{{ item["3 ตัวบน"] ? item.number : "" }}</b>
+              <td style="text-align: center; padding: 5px">
+                <b>{{ row["3 ตัวบน"].number }}</b>
               </td>
-              <td style="padding: 5px" class="text-right">
-                <b>{{
-                  item["3 ตัวบน"] ? numberWithCommas(item["3 ตัวบน"].total) : ""
-                }}</b>
+              <td style="text-align: end; padding: 5px">
+                <b>{{ numberWithCommas(row["3 ตัวบน"].total) }}</b>
               </td>
-
-              <td style="padding: 5px">
-                <b>{{ item["3 ตัวโต๊ด"] ? item.number : "" }}</b>
+              <td style="text-align: center; padding: 5px">
+                <b>{{ row["3 ตัวโต๊ด"].number }}</b>
               </td>
-              <td style="padding: 5px" class="text-right">
-                <b>{{
-                  item["3 ตัวโต๊ด"]
-                    ? numberWithCommas(item["3 ตัวโต๊ด"].total)
-                    : ""
-                }}</b>
+              <td style="text-align: end; padding: 5px">
+                <b>{{ numberWithCommas(row["3 ตัวโต๊ด"].total) }}</b>
               </td>
             </tr>
           </tbody>
@@ -349,17 +322,56 @@ export default {
       this.dir = false;
       return this.dir;
     },
-    mergedRows() {
-      let grouped = {};
+    // mergedRows() {
+    //   let grouped = {};
+
+    //   this.rows.forEach((item) => {
+    //     if (!grouped[item.number]) {
+    //       grouped[item.number] = { number: item.number, total: 0 };
+    //     }
+    //     console.log(grouped, "grouped");
+    //     grouped[item.number][item.type_option] = item;
+    //     grouped[item.number].total += item.total;
+    //   });
+    //   return Object.values(grouped).sort((a, b) => b.total - a.total);
+    // },
+    sortedData() {
+      let categories = [
+        "วิ่งบน",
+        "วิ่งล่าง",
+        "2 ตัวบน",
+        "2 ตัวล่าง",
+        "3 ตัวบน",
+        "3 ตัวโต๊ด",
+      ];
+
+      // จัดกลุ่มข้อมูลตามประเภท
+      let groupedData = {};
+      categories.forEach((category) => {
+        groupedData[category] = [];
+      });
 
       this.rows.forEach((item) => {
-        if (!grouped[item.number]) {
-          grouped[item.number] = { number: item.number, total: 0 };
+        if (groupedData[item.type_option]) {
+          groupedData[item.type_option].push(item);
         }
-        grouped[item.number][item.type_option] = item;
-        grouped[item.number].total += item.total;
       });
-      return Object.values(grouped).sort((a, b) => b.total - a.total);
+
+      // สร้างข้อมูลตารางใหม่ให้แต่ละประเภทมีจำนวนแถวเท่ากัน
+      let maxRows = Math.max(
+        ...Object.values(groupedData).map((arr) => arr.length)
+      );
+
+      let tableData = [];
+      for (let i = 0; i < maxRows; i++) {
+        let row = {};
+        categories.forEach((category) => {
+          row[category] = groupedData[category][i] || { number: "", total: "" };
+        });
+        tableData.push(row);
+      }
+
+      return tableData;
     },
     totalSummary() {
       let totals = {
@@ -380,10 +392,14 @@ export default {
       return totals;
     },
     startDate() {
-      return this.form.startDate ? this.form.startDate.split(" to ")[0] : "";
+      return this.form.startDate
+        ? this.form.startDate.split(" to ")[0]
+        : this.form.endDate;
     },
     endDate() {
-      return this.form.startDate ? this.form.startDate.split(" to ")[1] : "";
+      return this.form.startDate
+        ? this.form.startDate.split(" to ")[1]
+        : this.form.endDate;
     },
   },
   created() {
@@ -468,10 +484,12 @@ export default {
       if (x) {
         sum = x;
       }
-      return parseFloat(sum)
-        .toFixed(2)
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return x
+        ? parseFloat(sum)
+            .toFixed(2)
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        : "";
     },
     formatDate(date) {
       return moment(date).format("DD-MM-YYYY HH:mm:ss");
