@@ -23,7 +23,11 @@
               v-model="form.startDate"
               class="form-control"
               @input="getData()"
-              :config="{ dateFormat: 'Y-m-d' }"
+              :config="{
+                dateFormat: 'Y-m-d',
+                mode: 'range',
+                defaultDate: [new Date()],
+              }"
             />
           </b-form-group>
         </b-col>
@@ -375,6 +379,12 @@ export default {
 
       return totals;
     },
+    startDate() {
+      return this.form.startDate ? this.form.startDate.split(" to ")[0] : "";
+    },
+    endDate() {
+      return this.form.startDate ? this.form.startDate.split(" to ")[1] : "";
+    },
   },
   created() {
     this.getData();
@@ -391,7 +401,8 @@ export default {
             this.filter.typeHuay != null
               ? this.filter.typeHuay.lotto_type_id
               : undefined,
-          date: this.form.startDate,
+          date: this.startDate,
+          endDate: this.endDate ? this.endDate : this.startDate,
         },
       })
         .then((response) => {
