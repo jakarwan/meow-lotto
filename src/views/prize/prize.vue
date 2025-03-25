@@ -255,6 +255,18 @@
       >
         <b-form>
           <b-row>
+            <b-col md="12">
+              <b-form-group>
+                <label for="email">ผลหวย 6 หลัก:</label>
+                <b-form-input
+                  id="credit"
+                  type="text"
+                  placeholder="xxxxxx"
+                  v-model="form.prize6digit"
+                  maxlength="6"
+                />
+              </b-form-group>
+            </b-col>
             <b-col md="6">
               <b-form-group>
                 <label for="email">3 ตัวบน:</label>
@@ -598,6 +610,7 @@ export default {
         typeHuay: "",
       },
       form: {
+        prize6digit: "",
         prize3top: "",
         prize2bottom: "",
         typeHuay: "",
@@ -804,6 +817,7 @@ export default {
       this.$refs.addCredit.validate().then((success) => {
         if (success) {
           HTTP.post(`api/admin/prize/add-prize`, {
+            prize6digit: this.form.prize6digit,
             prize3top: this.form.prize3top,
             prize2bottom: this.form.prize2bottom,
             lotto_type_id:
