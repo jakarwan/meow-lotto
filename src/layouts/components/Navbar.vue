@@ -10,7 +10,7 @@
     <ul class="nav navbar-nav d-xl-none">
       <li class="nav-item">
         <b-link class="nav-link" @click="toggleVerticalMenuActive">
-          <feather-icon icon="MenuIcon" size="21" />
+          <feather-icon icon="MenuIcon" style="color: #6e6b7b !important;" size="21" />
         </b-link>
       </li>
     </ul>
