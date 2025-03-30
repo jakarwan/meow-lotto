@@ -116,6 +116,32 @@
             </b-col> -->
             <b-col md="6">
               <b-form-group>
+                <label for="email">ราคาจ่าย **(4 ตัวบน):</label>
+                <b-form-input
+                  id="price"
+                  type="number"
+                  placeholder="จำนวนที่ซื้อได้"
+                  pattern="[0-9]*"
+                  v-model="form.pay_4top"
+                  maxlength="4"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="6">
+              <b-form-group>
+                <label for="email">ราคาจ่าย **(4 ตัวโต๊ด):</label>
+                <b-form-input
+                  id="price"
+                  type="text"
+                  placeholder="จำนวนที่ซื้อได้"
+                  pattern="[0-9]*"
+                  v-model="form.pay_4tod"
+                  maxlength="4"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="6">
+              <b-form-group>
                 <label for="email">ราคาจ่าย **(3 ตัวบน):</label>
                 <b-form-input
                   id="price"
@@ -696,6 +722,21 @@ export default {
     },
     validationForm() {
       var type_options = [
+        {
+          name: "4 ตัวบน",
+          price: this.form.pay_4top,
+          type_id: this.filter.typeHuay.type_id,
+        },
+        {
+          name: "4 ตัวโต๊ด",
+          price: this.form.pay_4tod,
+          type_id: this.filter.typeHuay.type_id,
+        },
+        {
+          name: "4 ตัวกลับ",
+          price: this.form.pay_4top,
+          type_id: this.filter.typeHuay.type_id,
+        },
         {
           name: "3 ตัวบน",
           price: this.form.pay_3top,
