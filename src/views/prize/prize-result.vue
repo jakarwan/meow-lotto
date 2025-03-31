@@ -256,6 +256,70 @@
         </div>
       </div>
 
+      <div
+        class="d-flex justify-content-between flex-wrap"
+        v-if="totalRecords > 0"
+      >
+        <!-- page length -->
+        <div class="d-flex align-items-center mb-0 mt-1">
+          <span class="text-nowrap"> รายการที่แสดง </span>
+          <b-form-select
+            v-model="pageLength"
+            :options="pages"
+            class="mx-1"
+            @input="handlePageChange"
+          />
+          <span class="text-nowrap"> ทั้งหมด {{ totalRecords }} รายการ </span>
+        </div>
+
+        <!-- pagination -->
+        <div>
+          <b-pagination
+            :value="1"
+            :total-rows="totalRecords"
+            :per-page="pageLength"
+            first-number
+            last-number
+            align="right"
+            prev-class="prev-item"
+            next-class="next-item"
+            class="mt-1 mb-0"
+            @change="handleChangePage"
+          >
+            <template #prev-text>
+              <feather-icon icon="ChevronLeftIcon" size="18" />
+            </template>
+            <template #next-text>
+              <feather-icon icon="ChevronRightIcon" size="18" />
+            </template>
+          </b-pagination>
+        </div>
+      </div>
+
+      <div class="text-center" v-else>ไม่มีข้อมูล</div>
+
+      <!-- <div>
+        <b-pagination
+          :value="1"
+          :total-rows="totalRecords"
+          :per-page="pageLength"
+          first-number
+          last-number
+          align="right"
+          prev-class="prev-item"
+          next-class="next-item"
+          class="mt-1 mb-0"
+          @change="handleChangePage"
+        >
+          <template #prev-text>
+            <feather-icon icon="ChevronLeftIcon" size="18" />
+          </template>
+          <template #next-text>
+            <feather-icon icon="ChevronRightIcon" size="18" />
+          </template>
+        </b-pagination>
+      </div> -->
+
       <div style="overflow-x: auto; padding: 0">
         <hr />
         <h4 class="m-1"><b>สรุปยอดรวม</b></h4>
@@ -488,7 +552,7 @@ export default {
         },
       ],
       dir: false,
-      pages: ["5", "10", "25"],
+      pages: ["5", "10", "25", "50", "100"],
       columns: [
         {
           thClass: "text-center",
@@ -684,8 +748,8 @@ export default {
         },
       })
         .then((response) => {
-          this.rows = response.data.data;
-          // this.totalRecords = response.data.data.total;
+          this.rows = response.data.data.data;
+          this.totalRecords = response.data.data.total;
           if (this.rows) {
             let total = 0;
             let discount = 0;
