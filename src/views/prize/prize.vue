@@ -160,6 +160,20 @@
           <span v-if="props.column.field === 'created'">
             <span>{{ formatDate(props.row.created_at) }}</span>
           </span>
+          <span v-if="props.column.field === 'prize3front'">
+            <span v-for="(data, index) in JSON.parse(props.row.prize3bottom)"
+              ><span v-for="(item, indexItem) in data.prize3front">
+                {{ item }},
+              </span>
+            </span>
+          </span>
+          <span v-if="props.column.field === 'prize3after'">
+            <span v-for="(data, index) in JSON.parse(props.row.prize3bottom)">
+              <span v-for="(item, indexItem) in data.prize3after">
+                {{ item }},
+              </span>
+            </span>
+          </span>
 
           <span v-if="props.column.field === 'action'">
             <span>
@@ -267,6 +281,31 @@
                 />
               </b-form-group>
             </b-col>
+            <!-- v-if="form.typeHuay.type_id == 2" -->
+            <b-col md="6">
+              <b-form-group>
+                <label for="email">3 ตัวหน้า:</label>
+                <b-form-input
+                  id="credit"
+                  type="text"
+                  placeholder="ตัวอย่าง 123 456"
+                  v-model="form.prize3front"
+                  maxlength="7"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="6">
+              <b-form-group>
+                <label for="email">3 ตัวหลัง:</label>
+                <b-form-input
+                  id="credit"
+                  type="text"
+                  placeholder="ตัวอย่าง 123 456"
+                  v-model="form.prize3after"
+                  maxlength="7"
+                />
+              </b-form-group>
+            </b-col>
             <b-col md="6">
               <b-form-group>
                 <label for="email">3 ตัวบน:</label>
@@ -362,6 +401,7 @@
                   label="lotto_type_name"
                   placeholder="ประเภทหวย"
                   :clearable="true"
+                  @input="checkType()"
                 />
               </b-form-group>
             </b-col>
@@ -545,6 +585,24 @@ export default {
         {
           thClass: "text-center",
           tdClass: "text-center",
+          label: "เลข 6 ตัว",
+          field: "prize6digit",
+        },
+        {
+          thClass: "text-center",
+          tdClass: "text-center",
+          label: "เลข 3 ตัวหน้า",
+          field: "prize3front",
+        },
+        {
+          thClass: "text-center",
+          tdClass: "text-center",
+          label: "เลข 3 ตัวท้าย",
+          field: "prize3after",
+        },
+        {
+          thClass: "text-center",
+          tdClass: "text-center",
           label: "เลข 3 ตัวบน",
           field: "prize3top",
         },
@@ -611,6 +669,8 @@ export default {
       },
       form: {
         prize6digit: "",
+        prize3after: "",
+        prize3front: "",
         prize3top: "",
         prize2bottom: "",
         typeHuay: "",
@@ -816,8 +876,25 @@ export default {
     validationForm() {
       this.$refs.addCredit.validate().then((success) => {
         if (success) {
+          var prize3bottom = null;
+          if (this.form.prize3front != "" && this.form.prize3after != "") {
+            const number3front = this.form.prize3front.split(" ");
+            const number3after = this.form.prize3after.split(" ");
+            prize3bottom = [
+              {
+                type3front: "3 ตัวหน้า",
+                prize3front: number3front,
+              },
+              {
+                type3after: "3 ตัวหลัง",
+                prize3after: number3after,
+              },
+            ];
+          }
+          console.log(prize3bottom, "prize3bottom");
           HTTP.post(`api/admin/prize/add-prize`, {
             prize6digit: this.form.prize6digit,
+            prize3bottom: prize3bottom ? prize3bottom : undefined,
             prize3top: this.form.prize3top,
             prize2bottom: this.form.prize2bottom,
             lotto_type_id:
@@ -952,6 +1029,10 @@ export default {
     },
     formatDate(date) {
       return moment(date).format("DD-MM-YYYY");
+    },
+    checkType() {
+      this.form.prize3front = "";
+      this.form.prize3after = "";
     },
   },
 };
