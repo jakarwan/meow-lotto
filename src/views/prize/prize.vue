@@ -161,14 +161,14 @@
             <span>{{ formatDate(props.row.created_at) }}</span>
           </span>
           <span v-if="props.column.field === 'prize3front'">
-            <span v-for="(data, index) in JSON.parse(props.row.prize3bottom)"
+            <span v-for="(data, index) in props.row.prize3bottom"
               ><span v-for="(item, indexItem) in data.prize3front">
                 {{ item }},
               </span>
             </span>
           </span>
           <span v-if="props.column.field === 'prize3after'">
-            <span v-for="(data, index) in JSON.parse(props.row.prize3bottom)">
+            <span v-for="(data, index) in props.row.prize3bottom">
               <span v-for="(item, indexItem) in data.prize3after">
                 {{ item }},
               </span>
