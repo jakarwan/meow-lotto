@@ -168,18 +168,18 @@
             </b-col>
             <b-col md="6">
               <b-form-group>
-                <label for="email">ราคาจ่าย **(3 ตัวหน้า):</label>
+                <label for="email">ราคาจ่าย **(3 ตัวล่าง):</label>
                 <b-form-input
                   id="price"
                   type="number"
                   placeholder="จำนวนที่ซื้อได้"
                   pattern="[0-9]*"
-                  v-model="form.pay_3front"
+                  v-model="form.pay_3bottom"
                   maxlength="3"
                 />
               </b-form-group>
             </b-col>
-            <b-col md="6">
+            <!-- <b-col md="6">
               <b-form-group>
                 <label for="email">ราคาจ่าย **(3 ตัวหลัง):</label>
                 <b-form-input
@@ -191,7 +191,7 @@
                   maxlength="3"
                 />
               </b-form-group>
-            </b-col>
+            </b-col> -->
             <b-col md="6">
               <b-form-group>
                 <label for="email">ราคาจ่าย **(2 ตัวบน):</label>
@@ -779,15 +779,15 @@ export default {
           type_id: this.filter.typeHuay.type_id,
         },
         {
-          name: "3 ตัวหน้า",
-          price: this.form.pay_3front,
+          name: "3 ตัวล่าง",
+          price: this.form.pay_3bottom,
           type_id: this.filter.typeHuay.type_id,
         },
-        {
-          name: "3 ตัวหลัง",
-          price: this.form.pay_3after,
-          type_id: this.filter.typeHuay.type_id,
-        },
+        // {
+        //   name: "3 ตัวหลัง",
+        //   price: this.form.pay_3after,
+        //   type_id: this.filter.typeHuay.type_id,
+        // },
         {
           name: "2 ตัวบน",
           price: this.form.pay_2top,
