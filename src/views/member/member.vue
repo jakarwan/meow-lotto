@@ -125,6 +125,16 @@
               <feather-icon icon="MinusIcon" />
             </b-button>
           </span>
+          <span v-if="props.column.field === 'action'">
+            <!-- <button>{{ props.row.is_active}}</button> -->
+            <b-button
+              variant="gradient-primary"
+              class="btn-icon"
+              @click="showModalHistory(props.row)"
+            >
+              ประวัติ
+            </b-button>
+          </span>
           <!-- <span v-if="props.column.field === 'action'">
             <span>
               <b-dropdown
@@ -330,6 +340,100 @@
           </b-form>
         </b-modal>
       </validation-observer>
+      <b-modal
+        id="modal-history"
+        ref="modalHistorycredit"
+        cancel-variant="outline-secondary"
+        centered
+        hide-footer
+        size="xl"
+        title="ประวัติเครดิตเข้า-ออก (20 รายการล่าสุด)"
+      >
+        <b-row>
+          <b-col md="12">
+            <b-row>
+              <b-col md="6">
+                <div style="overflow-x: auto; padding: 0">
+              <h4 class="m-1"><b>เครดิตเข้า</b></h4>
+              <table class="table">
+                <thead>
+                  <tr class="text-center">
+                    <th>ลำดับ</th>
+                    <th>เบอร์โทรศัพท์</th>
+                    <th>ประเภท</th>
+                    <th>จำนวน</th>
+                    <th>วันที่</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(data, index) in rowsDpWd.deposite"
+                    :key="index"
+                    class="text-center"
+                    :class="{
+                      'bg-success text-white':
+                        data.sum_prize != null && data.status_result,
+                    }"
+                  >
+                    <td style="padding: 0">{{ index + 1 }}</td>
+                    <td style="padding: 0">{{ data.phone }}</td>
+                    <td style="padding: 0">
+                      {{ data.type }}
+                    </td>
+                    <td style="padding: 0">
+                      {{ data.amount }}
+                    </td>
+                    <td style="padding: 0">
+                      {{ formatDateTime(data.created_at) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              </b-col>
+              <b-col md="6">
+                <div style="overflow-x: auto; padding: 0">
+              <h4 class="m-1"><b>เครดิตออก</b></h4>
+              <table class="table">
+                <thead>
+                  <tr class="text-center">
+                    <th>ลำดับ</th>
+                    <th>เบอร์โทรศัพท์</th>
+                    <th>ประเภท</th>
+                    <th>จำนวน</th>
+                    <th>วันที่</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(data, index) in rowsDpWd.withdraw"
+                    :key="index"
+                    class="text-center"
+                    :class="{
+                      'bg-success text-white':
+                        data.sum_prize != null && data.status_result,
+                    }"
+                  >
+                    <td style="padding: 0">{{ index + 1 }}</td>
+                    <td style="padding: 0">{{ data.phone }}</td>
+                    <td style="padding: 0">
+                      {{ data.type }}
+                    </td>
+                    <td style="padding: 0">
+                      {{ data.amount }}
+                    </td>
+                    <td style="padding: 0">
+                      {{ formatDateTime(data.created_at) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+      </b-modal>
     </b-overlay>
   </b-card>
 </template>
@@ -360,6 +464,7 @@ import { BFormCheckbox } from "bootstrap-vue";
 import vSelect from "vue-select";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { required, integer } from "@validations";
+import moment from "moment";
 
 export default {
   components: {
@@ -469,10 +574,42 @@ export default {
         {
           thClass: "text-center",
           tdClass: "text-center",
-          label: "",
+          label: "ประวัติเครดิต",
           field: "action",
           sortable: false,
           width: "64px",
+        },
+      ],
+      columnsHistory: [
+        {
+          thClass: "text-center",
+          tdClass: "text-center",
+          label: "ลำดับ",
+          field: "dp_id",
+        },
+        {
+          thClass: "text-center",
+          tdClass: "text-center",
+          label: "เบอร์โทรศัพท์",
+          field: "phone",
+        },
+        {
+          thClass: "text-center",
+          tdClass: "text-center",
+          label: "จำนวน",
+          field: "amount",
+        },
+        {
+          thClass: "text-center",
+          tdClass: "text-center",
+          label: "ประเภท",
+          field: "type",
+        },
+        {
+          thClass: "text-center",
+          tdClass: "text-center",
+          label: "เวลา",
+          field: "created_at",
         },
       ],
       rows: [],
@@ -498,6 +635,7 @@ export default {
       integer,
       dataCredit: "",
       dataDisCredit: "",
+      rowsDpWd: [],
     };
   },
   computed: {
@@ -531,6 +669,34 @@ export default {
           this.rows = response.data.data.data;
           this.totalRecords = response.data.data.total;
           // console.log(this.rows)
+          this.OverlayFlag = false;
+        })
+        .catch((error) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-right",
+            props: {
+              title: "แจ้งเตือน",
+              text:
+                error.response.data.msg !== undefined
+                  ? error.response.data.msg
+                  : error.status,
+              icon: "XCircleIcon",
+              variant: "danger",
+            },
+          });
+          this.OverlayFlag = false;
+        });
+    },
+    getDataDpWd(id) {
+      this.OverlayFlag = true;
+      HTTP.get("api/admin/member/deposite-withdraw", {
+        params: {
+          id: id,
+        },
+      })
+        .then((response) => {
+          this.rowsDpWd = response.data.data;
           this.OverlayFlag = false;
         })
         .catch((error) => {
@@ -610,7 +776,7 @@ export default {
           HTTP.put(
             `api/admin/member/dis-credit`,
             {
-              id: this.dataDisCredit.id,
+              phone: this.dataDisCredit.phone,
               amount: this.form.credit,
               type: this.form.type,
               note: this.form.note,
@@ -701,6 +867,10 @@ export default {
       this.dataDisCredit = data;
       this.$refs.modalDiscredit.show();
     },
+    showModalHistory(data) {
+      this.$refs.modalHistorycredit.show();
+      this.getDataDpWd(data.id);
+    },
     showToast(text, variant) {
       this.$toast({
         component: ToastificationContent,
@@ -718,6 +888,9 @@ export default {
         .toFixed(2)
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+    formatDateTime(date) {
+      return moment(date).format("DD-MM-YYYY HH:mm:ss");
     },
   },
 };

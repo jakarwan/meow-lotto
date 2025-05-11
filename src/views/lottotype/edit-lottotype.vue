@@ -289,7 +289,7 @@ export default {
       this.$refs.addLotteryForm.validate().then((success) => {
         if (success) {
           if (this.form.dateDefault != null) {
-            if (this.form.lotteryImg != null) {
+            // if (this.form.lotteryImg != null) {
               //   let installment = parseInt(this.form.installment);
               //   let set = parseInt(this.form.set);
               //   let lotterNumber = parseInt(this.form.lotteryNumber);
@@ -338,9 +338,9 @@ export default {
                     }
                   }
                 });
-            } else {
-              this.showToast("กรุณาเลือกรูปภาพ", "danger");
-            }
+            // } else {
+            //   this.showToast("กรุณาเลือกรูปภาพ", "danger");
+            // }
           } else {
             this.showToast("กรอกข้อมูลให้ครบถ้วน", "danger");
           }

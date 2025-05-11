@@ -114,7 +114,7 @@
                 />
               </b-form-group>
             </b-col> -->
-            <b-col md="6">
+            <!-- <b-col md="6">
               <b-form-group>
                 <label for="email">ราคาจ่าย **(4 ตัวบน):</label>
                 <b-form-input
@@ -139,7 +139,7 @@
                   maxlength="4"
                 />
               </b-form-group>
-            </b-col>
+            </b-col> -->
             <b-col md="6">
               <b-form-group>
                 <label for="email">ราคาจ่าย **(3 ตัวบน):</label>
@@ -166,7 +166,7 @@
                 />
               </b-form-group>
             </b-col>
-            <b-col md="6">
+            <!-- <b-col md="6">
               <b-form-group>
                 <label for="email">ราคาจ่าย **(3 ตัวล่าง):</label>
                 <b-form-input
@@ -178,7 +178,7 @@
                   maxlength="3"
                 />
               </b-form-group>
-            </b-col>
+            </b-col> -->
             <!-- <b-col md="6">
               <b-form-group>
                 <label for="email">ราคาจ่าย **(3 ตัวหลัง):</label>
@@ -748,21 +748,21 @@ export default {
     },
     validationForm() {
       var type_options = [
-        {
-          name: "4 ตัวบน",
-          price: this.form.pay_4top,
-          type_id: this.filter.typeHuay.type_id,
-        },
-        {
-          name: "4 ตัวโต๊ด",
-          price: this.form.pay_4tod,
-          type_id: this.filter.typeHuay.type_id,
-        },
-        {
-          name: "4 ตัวกลับ",
-          price: this.form.pay_4top,
-          type_id: this.filter.typeHuay.type_id,
-        },
+        // {
+        //   name: "4 ตัวบน",
+        //   price: this.form.pay_4top,
+        //   type_id: this.filter.typeHuay.type_id,
+        // },
+        // {
+        //   name: "4 ตัวโต๊ด",
+        //   price: this.form.pay_4tod,
+        //   type_id: this.filter.typeHuay.type_id,
+        // },
+        // {
+        //   name: "4 ตัวกลับ",
+        //   price: this.form.pay_4top,
+        //   type_id: this.filter.typeHuay.type_id,
+        // },
         {
           name: "3 ตัวบน",
           price: this.form.pay_3top,
@@ -778,11 +778,11 @@ export default {
           price: this.form.pay_3top,
           type_id: this.filter.typeHuay.type_id,
         },
-        {
-          name: "3 ตัวล่าง",
-          price: this.form.pay_3bottom,
-          type_id: this.filter.typeHuay.type_id,
-        },
+        // {
+        //   name: "3 ตัวล่าง",
+        //   price: this.form.pay_3bottom,
+        //   type_id: this.filter.typeHuay.type_id,
+        // },
         // {
         //   name: "3 ตัวหลัง",
         //   price: this.form.pay_3after,

@@ -82,28 +82,30 @@
       </b-row>
     </div>
 
-    <!-- <b-overlay
+    <b-overlay
       :show="OverlayFlag"
       spinner-variant="primary"
       spinner-type="grow"
       spinner-small
       rounded="sm"
-    > -->
-    <div style="overflow-x: auto; padding: 0" v-if="rows ? rows.length : 0">
-      <hr />
-      <div v-for="(item, index) in getDataLottoType" :key="index">
-        <div v-if="item.result ? item.result.length : 0">
-          <h4 class="m-1">
-            <b>{{ item.program }}</b>
-          </h4>
-          <table class="table">
-            <thead>
-              <tr class="text-center">
-                <th>ลำดับ</th>
-                <th>เลขปิดรับ</th>
-                <th>ราคาจ่าย</th>
-                <th>จำนวนที่ซื้อได้</th>
-                <!-- <th>หมายเหตุ</th>
+    >
+      <div style="overflow-x: auto; padding: 0" v-if="rows ? rows.length : 0">
+        <hr />
+        <div v-for="(item, index) in getDataLottoType" :key="index">
+          <div v-if="item.result ? item.result.length : 0">
+            <h4 class="m-1">
+              <b>{{ item.program }}</b>
+            </h4>
+            <div style="overflow: auto; height: 500px">
+              <table class="table">
+                <thead>
+                  <tr class="text-center">
+                    <th>ลำดับ</th>
+                    <th>ประเภท</th>
+                    <th>เลขปิดรับ</th>
+                    <th>ราคาจ่าย</th>
+                    <th>จำนวนที่ซื้อได้</th>
+                    <!-- <th>หมายเหตุ</th>
                 <th>ยอดแทง</th>
                 <th>ส่วนลด</th>
                 <th>รวม</th>
@@ -112,24 +114,25 @@
                 <th>สถานะ</th>
                 <th>โพย</th>
                 <th>ยกเลิกโพย</th> -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(data, index) in item.result"
-                :key="index"
-                class="text-center"
-                :class="{
-                  'bg-danger text-white':
-                    data.buy_limit < 1 && data.buy_limit != null,
-                }"
-                @click="showModalEditCloseNumber(data)"
-              >
-                <td>{{ index + 1 }}</td>
-                <td>{{ data.number }}</td>
-                <td>{{ data.pay }}</td>
-                <td>{{ numberWithCommas(data.buy_limit) }}</td>
-                <!-- <td style="padding: 0">{{ formatDate(data.created_at) }}</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(data, index) in item.result"
+                    :key="index"
+                    class="text-center"
+                    :class="{
+                      'bg-danger text-white':
+                        data.buy_limit < 1 && data.buy_limit != null,
+                    }"
+                    @click="showModalEditCloseNumber(data)"
+                  >
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ data.type }}</td>
+                    <td>{{ data.number }}</td>
+                    <td>{{ data.pay }}</td>
+                    <td>{{ numberWithCommas(data.buy_limit) }}</td>
+                    <!-- <td style="padding: 0">{{ formatDate(data.created_at) }}</td>
                   <td style="padding: 0">{{ data.poy_code }}</td>
                   <td style="padding: 0">
                     {{ data.name }} {{ data.familyName }}
@@ -148,7 +151,7 @@
                     {{ numberWithCommas(data.sum_prize) }}
                   </td> -->
 
-                <!-- <td>
+                    <!-- <td>
                     <span
                       class="badge bg-success"
                       v-if="data.status_poy == 'SUC'"
@@ -175,7 +178,7 @@
                       >ไม่ถูกรางวัล</span
                     >
                   </td> -->
-                <!-- <td style="padding: 0">
+                    <!-- <td style="padding: 0">
                     <button
                       class="btn-sm btn-primary"
                       @click="showModalBill(data.poy_code)"
@@ -191,9 +194,9 @@
                       ยกเลิกโพย
                     </button>
                   </td> -->
-              </tr>
-            </tbody>
-            <!-- <tfoot>
+                  </tr>
+                </tbody>
+                <!-- <tfoot>
                 <tr class="text-center">
                   <td>รวม</td>
                   <td></td>
@@ -219,12 +222,13 @@
                   <td></td>
                 </tr>
               </tfoot> -->
-          </table>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="text-center mt-3 mb-3" v-else>ไม่พบข้อมูล</div>
-    <!-- </b-overlay> -->
+      <div class="text-center mt-3 mb-3" v-else>ไม่พบข้อมูล</div>
+    </b-overlay>
 
     <!-- :select-options="{
             enabled: true,
@@ -962,6 +966,7 @@ import {
   BModal,
   BFormTextarea,
   BForm,
+  BOverlay
 } from "bootstrap-vue";
 import { VueGoodTable } from "vue-good-table";
 import Ripple from "vue-ripple-directive";
@@ -994,6 +999,7 @@ export default {
     vSelect,
     ValidationProvider,
     ValidationObserver,
+    BOverlay,
   },
   directives: {
     Ripple,
@@ -1006,6 +1012,7 @@ export default {
       currentPage: 1,
       pageLength: 10,
       totalRecords: 0,
+      OverlayFlag: false,
       sort: [
         {
           field: "",
@@ -1101,11 +1108,11 @@ export default {
         closeNumber: "",
       },
       optionsType: [
-        "4 ตัวบน",
-        "4 ตัวโต๊ด",
+        // "4 ตัวบน",
+        // "4 ตัวโต๊ด",
         "3 ตัวบน",
         "3 ตัวโต๊ด",
-        "3 ตัวล่าง",
+        // "3 ตัวล่าง",
         "2 ตัวบน",
         "2 ตัวล่าง",
       ],
@@ -1163,7 +1170,7 @@ export default {
       return x != null ? x : "-";
     },
     getData() {
-      this.isLoading = true;
+      this.OverlayFlag = true;
       HTTP.get("api/close-number/all", {
         params: {
           lotto_type_id:
@@ -1177,7 +1184,7 @@ export default {
           this.rows = response.data.data;
           this.totalRecords = response.data.data.total;
           // console.log(this.rows)
-          this.isLoading = false;
+          this.OverlayFlag = false;
         })
         .catch((error) => {
           this.$toast({
@@ -1193,7 +1200,7 @@ export default {
               variant: "danger",
             },
           });
-          this.isLoading = false;
+          this.OverlayFlag = false;
         });
     },
     fetchTypeHuay() {
@@ -1218,10 +1225,12 @@ export default {
         });
     },
     updateStatus(id) {
+      this.OverlayFlag = true;
       HTTP.get(`api/get-prize/lotto-results`, { params: { lotto_type_id: id } })
         .then((resp) => {
           this.showToast(resp.data.msg, "success");
           this.updateBalance(id);
+          this.OverlayFlag = false;
         })
         .catch((err) => {
           if (err.response) {
@@ -1237,6 +1246,7 @@ export default {
               );
               this.getData();
             }
+            this.OverlayFlag = false;
           }
         });
     },
@@ -1265,25 +1275,29 @@ export default {
         });
     },
     validationForm() {
+      this.OverlayFlag = true;
       if (this.form.number != undefined) {
         const numberArray = this.form.number.split(" ");
         if (numberArray.length <= 1) {
-          if (this.form.typeNumber == "4 ตัวบน") {
-            const arr = numberArray[0].match(/.{1,4}/g);
-            this.closeNumber = arr;
-          } else if (this.form.typeNumber == "4 ตัวโต๊ด") {
-            const arr = numberArray[0].match(/.{1,4}/g);
-            this.closeNumber = arr;
-          } else if (this.form.typeNumber == "3 ตัวบน") {
+          // if (this.form.typeNumber == "4 ตัวบน") {
+          //   const arr = numberArray[0].match(/.{1,4}/g);
+          //   this.closeNumber = arr;
+          // } else if (this.form.typeNumber == "4 ตัวโต๊ด") {
+          //   const arr = numberArray[0].match(/.{1,4}/g);
+          //   this.closeNumber = arr;
+          // } else 
+          if (this.form.typeNumber == "3 ตัวบน") {
             const arr = numberArray[0].match(/.{1,3}/g);
             this.closeNumber = arr;
           } else if (this.form.typeNumber == "3 ตัวโต๊ด") {
             const arr = numberArray[0].match(/.{1,3}/g);
             this.closeNumber = arr;
-          } else if (this.form.typeNumber == "3 ตัวล่าง") {
-            const arr = numberArray[0].match(/.{1,3}/g);
-            this.closeNumber = arr;
-          } else if (this.form.typeNumber == "2 ตัวบน") {
+          } 
+          // else if (this.form.typeNumber == "3 ตัวล่าง") {
+          //   const arr = numberArray[0].match(/.{1,3}/g);
+          //   this.closeNumber = arr;
+          // }
+           else if (this.form.typeNumber == "2 ตัวบน") {
             const arr = numberArray[0].match(/.{1,2}/g);
             this.closeNumber = arr;
           } else if (this.form.typeNumber == "2 ตัวล่าง") {
@@ -1297,7 +1311,6 @@ export default {
         } else {
           this.closeNumber = numberArray;
         }
-        console.log(this.closeNumber, "this.closeNumber");
       }
 
       this.$refs.addCredit.validate().then((success) => {
@@ -1328,9 +1341,11 @@ export default {
               );
               this.$refs.modalAddPrize.hide();
               this.getData();
+              this.OverlayFlag = false;
             })
             .catch((error) => {
               this.showToast(error.response.data.msg, "danger");
+              this.OverlayFlag = false;
             });
         }
       });

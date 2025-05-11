@@ -129,6 +129,30 @@ const router = new VueRouter({
       },
     },
     {
+      path: "/report-credit",
+      name: "report-credit",
+      component: () => import("@/views/transaction/report-credit.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/report-prize",
+      name: "report-prize",
+      component: () => import("@/views/transaction/report-prize.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/report-lotto",
+      name: "report-lotto",
+      component: () => import("@/views/prize/report-lotto.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: "/poy",
       name: "poy",
       component: () => import("@/views/poy/poy.vue"),

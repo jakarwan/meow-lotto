@@ -256,10 +256,7 @@
         </div>
       </div>
 
-      <div
-        class="d-flex justify-content-between flex-wrap"
-        v-if="totalRecords > 0"
-      >
+      <div class="d-flex justify-content-between flex-wrap" v-if="totalRecords > 0">
         <!-- page length -->
         <div class="d-flex align-items-center mb-0 mt-1">
           <span class="text-nowrap"> รายการที่แสดง </span>
@@ -296,7 +293,9 @@
         </div>
       </div>
 
-      <div class="text-center" v-else>ไม่มีข้อมูล</div>
+      <div class="text-center" v-else>
+        ไม่มีข้อมูล
+      </div>
 
       <!-- <div>
         <b-pagination
