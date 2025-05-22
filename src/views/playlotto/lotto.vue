@@ -38,6 +38,7 @@
                         class="game-list-item"
                         :id="'huay' + item.lotto_type_id"
                         :class="{ 'filter-gray-huay': item.open != 1 }"
+                        style="height: 120px;"
                         @click="
                           onClickPlay(item.lotto_type_id, item.lotto_type_name)
                         "
@@ -48,7 +49,7 @@
                           class="img-lotto"
                         />
                       </div>
-                      <span :id="'demo' + item.lotto_type_id" class="fix-time">
+                      <!-- <span :id="'demo' + item.lotto_type_id" class="fix-time">
                         {{
                           countDown(
                             item.closing_time,
@@ -56,7 +57,20 @@
                             item.open
                           )
                         }}
-                      </span>
+                      </span> -->
+                      
+                      <div class="text-center mt-4">
+                        {{ item.lotto_type_name }}
+                      </div>
+                      <div class="text-center" :id="'demo' + item.lotto_type_id">
+                        {{
+                          countDown(
+                            item.closing_time,
+                            item.lotto_type_id,
+                            item.open
+                          )
+                        }}
+                      </div>
                     </b-col>
                   </b-row>
                 </b-col>
