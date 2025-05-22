@@ -161,14 +161,17 @@
             <span>{{ formatDate(props.row.created_at) }}</span>
           </span>
           <span v-if="props.column.field === 'prize3front'">
-            <span v-for="(data, index) in JSON.parse(props.row.prize3bottom)"
+            <span
+              v-for="(data, index) in props.row.prize3bottom"
               ><span v-for="(item, indexItem) in data.prize3front">
                 {{ item }},
               </span>
             </span>
           </span>
           <span v-if="props.column.field === 'prize3after'">
-            <span v-for="(data, index) in JSON.parse(props.row.prize3bottom)">
+            <span
+              v-for="(data, index) in props.row.prize3bottom"
+            >
               <span v-for="(item, indexItem) in data.prize3after">
                 {{ item }},
               </span>
@@ -568,7 +571,7 @@ export default {
         },
       ],
       dir: false,
-      pages: ["5", "10", "25"],
+      pages: ["5", "10", "50", "100"],
       columns: [
         {
           thClass: "text-center",
@@ -724,6 +727,7 @@ export default {
       })
         .then((response) => {
           this.rows = response.data.data.data;
+          console.log(this.rows, "ssss");
           this.totalRecords = response.data.data.total;
           // console.log(this.rows)
           this.OverlayFlag = false;

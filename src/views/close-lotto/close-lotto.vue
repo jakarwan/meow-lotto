@@ -123,15 +123,15 @@
                     class="text-center"
                     :class="{
                       'bg-danger text-white':
-                        data.buy_limit < 1 && data.buy_limit != null,
+                        data.remaining_limit < 1,
                     }"
                     @click="showModalEditCloseNumber(data)"
                   >
                     <td>{{ index + 1 }}</td>
                     <td>{{ data.type }}</td>
                     <td>{{ data.number }}</td>
-                    <td>{{ data.pay }}</td>
-                    <td>{{ numberWithCommas(data.buy_limit) }}</td>
+                    <td>{{ data.series === 1 ? `${data.pay} (ขั้นที่ ${data.series})` : `${data[`pay${data.series}`]} (ขั้นที่ ${data.series})` }}</td>
+                    <td>{{ numberWithCommas(data.remaining_limit) }}</td>
                     <!-- <td style="padding: 0">{{ formatDate(data.created_at) }}</td>
                   <td style="padding: 0">{{ data.poy_code }}</td>
                   <td style="padding: 0">

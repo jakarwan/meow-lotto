@@ -258,7 +258,7 @@ export default {
         },
       ],
       dir: false,
-      pages: ["5", "10", "25"],
+      pages: ["5", "10", "50", "100"],
       columns: [
         {
           thClass: "text-center",
