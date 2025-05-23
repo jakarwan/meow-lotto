@@ -38,7 +38,6 @@
                         class="game-list-item"
                         :id="'huay' + item.lotto_type_id"
                         :class="{ 'filter-gray-huay': item.open != 1 }"
-                        style="height: 120px;"
                         @click="
                           onClickPlay(item.lotto_type_id, item.lotto_type_name)
                         "
@@ -46,6 +45,8 @@
                         <img
                           :src="item.lotto_type_img"
                           alt=""
+                          width="100%"
+                          height="120px"
                           class="img-lotto"
                         />
                       </div>
